@@ -13,6 +13,12 @@ const client = axios.create({
   }
 });
 
+
+
+export default client;
+
+
+
 // No necesitas las funciones de Authorization aquí si son solo para el registro.
 // Solo las añades después de que el usuario esté autenticado y tengas un token.
 
@@ -22,9 +28,3 @@ const client = axios.create({
 // export const removeAuthorizationHeader = () => {
 //   delete client.defaults.headers.common['Authorization'];
 // };
-
-
-export default client;
-
-
-
