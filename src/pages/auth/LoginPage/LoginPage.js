@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import Button from '../../components/Button';
-import { login } from './service.js';
+import Button from '../../../components/shared/Button';
+import { login } from '../components/service.js';
+import styles from './';
 
 function LoginPage() {
     const [email, setEmail] = useState('');

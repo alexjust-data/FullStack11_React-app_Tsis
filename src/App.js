@@ -1,5 +1,5 @@
 //import LoginPage from './pages/auth/LoginPage'
-import Signup from './pages/auth/Signup';
+import Signup from './pages/auth/Signup/Signup';
 
 
 function App() {

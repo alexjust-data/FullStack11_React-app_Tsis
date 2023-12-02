@@ -1,0 +1,12 @@
+.form-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.input-field {
+    margin-bottom: 10px; /* Espacio entre los campos de entrada */
+}
+
+.button-container {
+    margin-top: 20px; /* Espacio encima del botón */
+}
