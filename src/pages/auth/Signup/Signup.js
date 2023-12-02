@@ -27,7 +27,7 @@ function Signup() {
             });
             console.log('Registro exitoso:', response.data);
             // Redirigir al usuario a la página de inicio de sesión
-            navigate('../LoginPage/LoginPage.js');
+            navigate('/login');
         } catch (error) {
             console.error('Error en el registro:', error);
             if (error.response) {

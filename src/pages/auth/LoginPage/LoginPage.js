@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import Button from '../../../components/shared/Button';
-import { login } from '../components/service.js';
-import styles from './';
+import { login } from '../components/service';
+import { useNavigate } from 'react-router-dom';
+//import styles from './';
 
 function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
+
+    let navigate = useNavigate(); 
 
     const handleLogin = async (event) => {
         event.preventDefault();
@@ -15,15 +18,26 @@ function LoginPage() {
         console.log(event.target.email.value)
         console.log(event.target.password.value)
         try {
-            await login ({
+            const response = await login ({
                 email: event.target.email.value,
                 password: event.target.password.value,
             });
-            // Aquí llamarías a tu API para iniciar sesión
-            // Por ejemplo: await api.login(loginDto);
+            console.log('Registro exitoso:', response.data);
+            navigate('/adverts');
         } catch (error) {
-            // Manejar el error
-            console.log(error)
+            console.error('Error en el registro:', error);
+            if (error.response) {
+                // La solicitud fue hecha y el servidor respondió con un estado fuera del rango 2xx
+                console.error(error.response.data);
+                console.error(error.response.status);
+                console.error(error.response.headers);
+            } else if (error.request) {
+                // La solicitud fue hecha pero no se recibió respuesta
+                console.error(error.request);
+            } else {
+                // Algo sucedió al configurar la solicitud que disparó un error
+                console.error('Error', error.message);
+            }
         }
 
 
