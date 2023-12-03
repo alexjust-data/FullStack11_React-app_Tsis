@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getAdvert } from './service'; // Asegúrate de que la ruta de importación es correcta
+import { getAdvert } from './service'; 
 
 // Componente de confirmación (puede ser más complejo, como un modal)
 const ConfirmDialog = ({ onConfirm, onCancel }) => (

@@ -33,4 +33,13 @@ Diseño primera página para recojer datos del usuario y solicitar el requerimie
 
 `npm install react-router-dom`
 
+* creo componente `LoginPage` solicitando al usuario email y passwort
+* `client.setAuthorizationHeader` toma token y lo utiliza para establecer el encabezado 'Authorization' en Axios
+* `service.login` realiza una petición POST a la ruta '/auth/login' con las credenciales proporcionadas y luego asegura que todas las solicitudes futuras estén autorizadas con el token de acceso obtenido.
 
+
+**USUARIO LOGUEADO**
+
+* Creo un contexto `AuthContext`
+* Creo componente `RequireAuth` para usarlo donde requiera
+* Creo objeto `utils/storege`  Los métodos proporcionados (get, set, remove y clear) facilitan la interacción con el almacenamiento local y permiten a la aplicación guardar y recuperar datos de forma sencilla en el navegador. 
