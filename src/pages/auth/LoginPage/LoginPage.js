@@ -2,44 +2,45 @@ import { useState } from 'react';
 import Button from '../../../components/shared/Button';
 import { login } from '../components/service';
 import { useNavigate } from 'react-router-dom';
-//import styles from './';
+import './LoginPage.css';
 
 function LoginPage() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [rememberMe, setRememberMe] = useState(false);
+    const [error, setError] = useState('');
 
     let navigate = useNavigate(); 
 
     const handleLogin = async (event) => {
         event.preventDefault();
-        // Aquí agregarías la lógica de autenticación
-        console.log(event.target)
-        console.log(event.target.email.value)
-        console.log(event.target.password.value)
+        setError(''); // clean before setError
+
         try {
-            const response = await login ({
+            const data = await login ({
                 email: event.target.email.value,
                 password: event.target.password.value,
             });
-            console.log('Registro exitoso:', response.data);
+            console.log('Successful login:', data);
             navigate('/adverts');
         } catch (error) {
-            console.error('Error en el registro:', error);
+            let errorMessage = 'An error occurred while logging in.';
             if (error.response) {
-                // La solicitud fue hecha y el servidor respondió con un estado fuera del rango 2xx
-                console.error(error.response.data);
-                console.error(error.response.status);
-                console.error(error.response.headers);
+                // The request was made and the server responded with a status code 
+                // that falls out of the range 2xx
+                console.error('Data:', error.response.data);
+                console.error('Status:', error.response.status);
+                errorMessage = error.response.data.message || errorMessage;
             } else if (error.request) {
-                // La solicitud fue hecha pero no se recibió respuesta
-                console.error(error.request);
+                // The request was made but no response was received
+                console.error('Request:', error.request);
             } else {
-                // Algo sucedió al configurar la solicitud que disparó un error
-                console.error('Error', error.message);
+                // Something happened in setting up the request that triggered an error
+                console.error('Error Message:', error.message);
             }
+            setError(errorMessage); // Set the error message to display it in the UI
         }
-
+        
 
         if (rememberMe) {
             localStorage.setItem('userEmail', email);
@@ -88,6 +89,7 @@ function LoginPage() {
                 <Button type="submit" variant="primary">
                     Log in
                 </Button>
+                {error && <div className="loginPage-error">{error}</div>}
             </form>
         </div>
     );

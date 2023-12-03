@@ -14,17 +14,16 @@ const client = axios.create({
 });
 
 
+/** Takes a token as an argument and uses it to set the 'Authorization' header to Axios, 
+ * preceded by the word 'Bearer'. This is typical in token-based authentication.
+ * @param {*} token 
+ * @returns 
+ */
+export const setAuthorizationHeader = token =>
+(client.defaults.headers.common['Authorization'] = `Bearer ${token}`);
+
+export const removeAuthorizationHeader = () => {
+  delete client.defaults.headers.common['Authorization'];
+};
 
 export default client;
-
-
-
-// No necesitas las funciones de Authorization aquí si son solo para el registro.
-// Solo las añades después de que el usuario esté autenticado y tengas un token.
-
-// export const setAuthorizationHeader = token =>
-//   (client.defaults.headers.common['Authorization'] = `Bearer ${token}`);
-
-// export const removeAuthorizationHeader = () => {
-//   delete client.defaults.headers.common['Authorization'];
-// };
