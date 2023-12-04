@@ -9,6 +9,7 @@ import { AuthContextProvider } from './pages/auth/AuthContext';
 
 
 const accessToken = storage.get('auth');
+console.log(accessToken)
 if (accessToken) {
   setAuthorizationHeader(accessToken);
 }

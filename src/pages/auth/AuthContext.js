@@ -1,4 +1,5 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
+import storage from '../../utils/storage';
 
 
 const AuthContext = createContext(false);
@@ -12,6 +13,13 @@ export const useAuth = () => {
 // Componente que proporciona el contexto de autenticación.
 export const AuthContextProvider = ({ initiallyLogged, children }) => {
   const [isLogged, setIsLogged] = useState(initiallyLogged);
+
+  useEffect(() => {
+    const accessToken = storage.get('auth');
+    if (accessToken) {
+      setIsLogged(true);
+    }
+  }, []);
 
   const handleLogin = () => setIsLogged(true);
   const handleLogout = () => setIsLogged(false);

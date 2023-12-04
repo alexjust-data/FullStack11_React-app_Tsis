@@ -40,6 +40,16 @@ Diseño primera página para recojer datos del usuario y solicitar el requerimie
 
 **USUARIO LOGUEADO**
 
-* Creo un contexto `AuthContext`
-* Creo componente `RequireAuth` para usarlo donde requiera
-* Creo objeto `utils/storege`  Los métodos proporcionados (get, set, remove y clear) facilitan la interacción con el almacenamiento local y permiten a la aplicación guardar y recuperar datos de forma sencilla en el navegador. 
+* Creo un contexto `auth/AuthContext`; este patrón contexto que permite que los componentes de una aplicación se comuniquen y compartan el estado de autenticación de manera eficiente y organizada, sin tener que propagar explícitamente las props a través de múltiples niveles de componentes.
+  
+* Creo componente `RequireAuth` ; Su propósito es proteger rutas específicas, asegurándose de que solo los usuarios autenticados puedan acceder a ellas. Si un usuario no autenticado intenta acceder a una de estas rutas protegidas, será redirigido a una página de inicio de sesión o registro.
+  
+* Creo objeto `utils/storage`  Los métodos proporcionados (get, set, remove y clear) facilitan la interacción con el almacenamiento local y permiten a la aplicación guardar y recuperar datos de forma sencilla en el navegador. 
+
+* `auth/Adverts/service.getLatestAdverts` ; 
+
+
+
+**persistir_Token**
+
+* Creamos una carpeta `utils/storage.js` guadamos el token en el localStoreg para que nos olvidemos de él cuando lo tengamos.

@@ -1,9 +1,6 @@
-/**
- * This is your React component where users register.
- */
 import { useState } from 'react';
 import Button from '../../../components/shared/Button';
-import { signup } from '../components/service';
+import { signup } from './service';
 import { useNavigate } from 'react-router-dom';
 import './Signup.css';
 
@@ -63,49 +60,48 @@ function Signup() {
     };
 
     return (
-        <div>
-            <h1>Sign up</h1>
-            <div className="form-container">
-                <form onSubmit={handleSignup}>
-                    <input 
-                        className="input-field"
-                        type="email" 
-                        name="email" 
-                        placeholder="Email" 
-                        value={email}
-                        onChange={handleEmailChange}
-                    />
-                    <input 
-                        className="input-field"
-                        type="password" 
-                        name="password" 
-                        placeholder="Password"
-                        value={password}
-                        onChange={handlePasswordChange}
-                    />
-                    <input 
-                        className="input-field"
-                        type="text" 
-                        name="username" 
-                        placeholder="Username"
-                        value={username}
-                        onChange={handleUserNameChange}
-                    />
-                    <input 
-                        className="input-field"
-                        type="text" 
-                        name="name" 
-                        placeholder="Full Name"
-                        value={name}
-                        onChange={handleNameChange}
-                    />
-                    <div className="button-container">
-                        <Button type="submit" variant="primary">
-                            Sign up
-                        </Button>
-                    </div>
-                </form>
-            </div>
+        <div >
+            <h3 className="input-field">Sign up</h3>
+            <form className="form-container" 
+                    onSubmit={handleSignup}>
+                <input 
+                    className="input-field"
+                    type="email" 
+                    name="email" 
+                    placeholder="Email" 
+                    value={email}
+                    onChange={handleEmailChange}
+                />
+                <input 
+                    className="input-field"
+                    type="current-password" 
+                    name="password" 
+                    placeholder="Password"
+                    value={password}
+                    onChange={handlePasswordChange}
+                />
+                <input 
+                    className="input-field"
+                    type="text" 
+                    name="username" 
+                    placeholder="Username"
+                    value={username}
+                    onChange={handleUserNameChange}
+                />
+                <input 
+                    className="input-field"
+                    type="text" 
+                    name="name" 
+                    placeholder="Full Name"
+                    value={name}
+                    onChange={handleNameChange}
+                />
+                <div className="button-container">
+                    <Button type="submit" variant="primary">
+                        Sign up
+                    </Button>
+                </div>
+            </form>
         </div>
     );
 }

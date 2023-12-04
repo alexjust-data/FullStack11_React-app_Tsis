@@ -4,7 +4,12 @@ const storage = {
       if (!value) {
         return null;
       }
-      return JSON.parse(value);
+      try {
+        return JSON.parse(value);
+      } catch (error) {
+        console.error("Error parsing JSON:", error);
+        return null;
+      }
     },
   
     set(key, value) {

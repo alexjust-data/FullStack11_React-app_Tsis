@@ -5,6 +5,8 @@ function RequireAuth({ children }) {
   const location = useLocation(); // Obtiene la ubicación actual de la ruta
   const { isLogged } = useAuth(); // Obtiene el estado de autenticación
 
+  console.log(isLogged)
+
   return isLogged ? (
     // Si está autenticado, permite el acceso a los componentes hijos.
     children

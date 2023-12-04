@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import Button from '../../../components/shared/Button';
-import { login } from '../components/service';
+import { login } from '../service';
 import { useNavigate } from 'react-router-dom';
 import './LoginPage.css';
 
@@ -72,7 +72,7 @@ function LoginPage() {
                     onChange={handleEmailChange}
                 />
                 <input 
-                    type="password" 
+                    type="current-password" 
                     name="password" 
                     placeholder="Password"
                     value={password}

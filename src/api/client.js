@@ -14,7 +14,7 @@ const client = axios.create({
 });
 
 
-/** Takes a token as an argument and uses it to set the 'Authorization' header to Axios, 
+/** Takes a token as argument and uses it to set the 'Authorization' header to Axios, 
  * preceded by the word 'Bearer'. This is typical in token-based authentication.
  * @param {*} token 
  * @returns 

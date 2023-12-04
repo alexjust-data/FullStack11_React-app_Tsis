@@ -4,9 +4,15 @@
 }
 
 .input-field {
-    margin-bottom: 10px; /* Espacio entre los campos de entrada */
+    margin-bottom: 10px;
+    width: 100%; /* Asumirá el ancho máximo del contenedor padre hasta 400px */
+    max-width: 400px; /* Establece un ancho máximo para el input */
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .button-container {
     margin-top: 20px; /* Espacio encima del botón */
+    margin-left: auto;
+    margin-right: auto;
 }
