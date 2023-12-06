@@ -1,61 +1,64 @@
 import React, { useState, useEffect } from 'react';
+import Select from 'react-select';
 import { Link } from 'react-router-dom';
 import { getLatestAdverts } from './service';
 
 function AdvertsPage() {
   const [adverts, setAdverts] = useState([]); // Estado para los anuncios
   const [filters, setFilters] = useState({}); // Estado para los filtros
+  const [availableTags, setAvailableTags] = useState(['mobile', 'lifestyle', 'motor', 'work']); 
 
   useEffect(() => {
-    // Cargar los anuncios iniciales aquí (llamada a la API)
-    getLatestAdverts().then(adverts => {
-      setAdverts(() => {
-        return adverts;
+    getLatestAdverts().then(advertsData => {
+      setAdverts(advertsData);
+  
+      // Crear un nuevo Set para almacenar tags únicos
+      const tagsSet = new Set();
+      advertsData.forEach(advert => {
+        advert.tags.forEach(tag => {
+          tagsSet.add(tag);
+        });
       });
+      
+      // Convertir el Set a un array y actualizar el estado de availableTags
+      setAvailableTags(Array.from(tagsSet));
     });
   }, []);
 
-  const handleFilterChange = (e) => {
-    const value = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-    setFilters({ ...filters, [e.target.name]: value });
+  // Define tagOptions based on availableTags for use with react-select
+  const tagOptions = availableTags.map(tag => ({ value: tag, label: tag }));
+  const saleOptions = [
+    { value: '', label: 'Todos' },
+    { value: 'venta', label: 'Venta' },
+    { value: 'compra', label: 'Compra' }
+  ];
+  
+
+  const handleFilterChange = (name, selectedOption) => {
+    // Si es el filtro de tags, necesitamos manejar un array de valores
+    if (name === 'tags') {
+      // selectedOption es null cuando no hay opciones seleccionadas
+      const values = selectedOption ? selectedOption.map(option => option.value) : [];
+      setFilters(filters => ({ ...filters, [name]: values }));
+    } else {
+      // Para los demás filtros que no son multi-select
+      const value = selectedOption.value;
+      setFilters(filters => ({ ...filters, [name]: value }));
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    // Use the value for input and select, but checked for checkboxes
+    setFilters(filters => ({ ...filters, [name]: type === 'checkbox' ? checked : value }));
   };
 
   const applyFilters = () => {
-    // Empezamos con todos los anuncios y vamos filtrando
-    let filteredAdverts = adverts;
-
-    // Filtro por nombre
-    if (filters.name) {
-      filteredAdverts = filteredAdverts.filter((advert) =>
-        advert.name.toLowerCase().includes(filters.name.toLowerCase())
-      );
-  }
-
-  // Filtro compra/venta
-  if (filters.sale !== 'todos') {
-    const isSale = filters.sale === 'venta';
-    filteredAdverts = filteredAdverts.filter((advert) => advert.sale === isSale);
-  }
-
-  // Filtro por precio
-  if (filters.minPrice || filters.maxPrice) {
-    filteredAdverts = filteredAdverts.filter((advert) => {
-      const price = advert.price;
-      const minPrice = filters.minPrice || 0;
-      const maxPrice = filters.maxPrice || Number.MAX_VALUE;
-      return price >= minPrice && price <= maxPrice;
+    getLatestAdverts(filters).then(filteredAdverts => {
+      setAdverts(filteredAdverts);
     });
-  }
-
-  // Filtro por tags
-  if (filters.tags && filters.tags.length > 0) {
-    filteredAdverts = filteredAdverts.filter((advert) =>
-      filters.tags.every((tag) => advert.tags.includes(tag))
-    );
-  }
-
-    setAdverts(filteredAdverts);
-};
+  };
+  
 
   return (
     <div>
@@ -80,29 +83,36 @@ function AdvertsPage() {
       <h2>Filtros</h2>
         <form onSubmit={(e) => { e.preventDefault(); applyFilters(); }}>
           {/* Filtro por nombre */}
-          <input type="text" name="name" placeholder="Buscar por nombre" onChange={handleFilterChange} />
+          <input type="text" 
+                 name="name" 
+                 placeholder="Buscar por nombre" 
+                 onChange={handleInputChange} />
           
           {/* Filtro compra/venta */}
-          <select name="sale" onChange={handleFilterChange}>
-            <option value="todos">Todos</option>
-            <option value="venta">Venta</option>
-            <option value="compra">Compra</option>
-          </select>
+          <Select
+            name="sale"
+            options={saleOptions}
+            className="basic-single-select"
+            classNamePrefix="select"
+            placeholder="Estado de venta"
+            onChange={selectedOption => handleFilterChange('sale', selectedOption)}
+          />
           
           {/* Filtro por precio */}
-          <input type="number" name="minPrice" placeholder="Precio mínimo" onChange={handleFilterChange} />
-          <input type="number" name="maxPrice" placeholder="Precio máximo" onChange={handleFilterChange} />
+          <input type="number" name="minPrice" placeholder="Precio mínimo" onChange={handleInputChange} />
+          <input type="number" name="maxPrice" placeholder="Precio máximo" onChange={handleInputChange} />
           
-          {/* Filtro por tags (ejemplo con checkboxes) */}
-          <div>
-            <label>
-              <input type="checkbox" name="tags" value="tag1" onChange={handleFilterChange} /> Tag1
-            </label>
-            <label>
-              <input type="checkbox" name="tags" value="tag2" onChange={handleFilterChange} /> Tag2
-            </label>
-            {/* Añadir más tags según sea necesario */}
-          </div>
+          {/* Filtro por tags (selección múltiple) */}
+          <Select
+            isMulti
+            name="tags"
+            options={tagOptions} // Now using the defined tagOptions
+            className="basic-multi-select"
+            classNamePrefix="select"
+            placeholder="Selecciona tags"
+            onChange={selectedOption => handleFilterChange('tags', selectedOption)}
+          />
+
           
           <button type="submit">Aplicar Filtros</button>
         </form>
