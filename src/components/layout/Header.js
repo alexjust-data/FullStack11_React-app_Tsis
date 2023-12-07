@@ -22,12 +22,8 @@ function Header({ className }) {
           to="/adverts/new"
           replace
           className={navItemClassName}
-          // style={({ isActive }) => (isActive ? { color: 'red' } : null)}
           >
           New Tweet
-        </NavLink>
-        <NavLink to="/adverts" className={navItemClassName} end>
-          See latest tweets
         </NavLink>
         <AuthButton className="header-button" />
       </nav>
@@ -36,32 +32,3 @@ function Header({ className }) {
 }
 
 export default Header;
-
-
-
-// import React from 'react';
-// import { useNavigate } from 'react-router-dom';
-// import { logout } from '../../pages/auth/service'; 
-
-// import './Header.css';
-
-// const Header = () => {
-//   const navigate = useNavigate();
-
-//   const handleLogout = () => {
-//     logout().then(() => {
-//       // Realiza cualquier limpieza necesaria aquí
-      
-//       navigate('/'); // Redirige al usuario a la página de inicio de sesión
-//     });
-//   };
-
-//   return (
-//     <header>
-//       {/* ...otros elementos de tu cabecera... */}
-//       <button onClick={handleLogout}>Logout</button>
-//     </header>
-//   );
-// };
-
-// export default Header;

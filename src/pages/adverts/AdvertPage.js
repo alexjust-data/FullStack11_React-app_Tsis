@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { getAdvert } from './service'; 
+import { getAdvert, deleteAdvert } from './service'; 
 
 // Componente de confirmación (puede ser más complejo, como un modal)
 const ConfirmDialog = ({ onConfirm, onCancel }) => (
@@ -38,10 +38,14 @@ const AdvertPage = () => {
   }, [id, navigate]);
 
   const handleDelete = async () => {
-    // Aquí deberías incluir la lógica para llamar al API y borrar el anuncio
-    // Por ejemplo: await deleteAdvert(id);
-    console.log('Advert deleted'); // Reemplazar con la llamada real a la API
-    navigate('/adverts');
+    try {
+      await deleteAdvert(id); // Llama función de servicio y borra anuncio
+      console.log('Advert deleted');
+      navigate('/adverts'); 
+    } catch (error) {
+      console.error('Failed to delete the advert', error);
+      // Aquí debes manejar los errores, por ejemplo mostrando un mensaje al usuario
+    }
   };
 
   if (loading) return <div>Cargando...</div>;

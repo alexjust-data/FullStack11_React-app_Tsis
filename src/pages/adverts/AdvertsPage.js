@@ -11,6 +11,7 @@ function AdvertsPage() {
   useEffect(() => {
     getLatestAdverts().then(advertsData => {
       setAdverts(advertsData);
+      console.log(advertsData)
   
       // Crear un nuevo Set para almacenar tags únicos
       const tagsSet = new Set();
@@ -64,7 +65,7 @@ function AdvertsPage() {
     <div>
       {adverts.length === 0 ? (
         <div>
-          No hay anuncios disponibles. <Link to="/new-advert">Crear anuncio</Link>
+          No hay anuncios disponibles. <Link to="new">Crear anuncio</Link>
         </div>
       ) : (
         <div>
@@ -80,42 +81,40 @@ function AdvertsPage() {
         </div>
       )}
       <div>
-      <h2>Filtros</h2>
-        <form onSubmit={(e) => { e.preventDefault(); applyFilters(); }}>
-          {/* Filtro por nombre */}
-          <input type="text" 
-                 name="name" 
-                 placeholder="Buscar por nombre" 
-                 onChange={handleInputChange} />
-          
-          {/* Filtro compra/venta */}
-          <Select
-            name="sale"
-            options={saleOptions}
-            className="basic-single-select"
-            classNamePrefix="select"
-            placeholder="Estado de venta"
-            onChange={selectedOption => handleFilterChange('sale', selectedOption)}
-          />
-          
-          {/* Filtro por precio */}
-          <input type="number" name="minPrice" placeholder="Precio mínimo" onChange={handleInputChange} />
-          <input type="number" name="maxPrice" placeholder="Precio máximo" onChange={handleInputChange} />
-          
-          {/* Filtro por tags (selección múltiple) */}
-          <Select
-            isMulti
-            name="tags"
-            options={tagOptions} // Now using the defined tagOptions
-            className="basic-multi-select"
-            classNamePrefix="select"
-            placeholder="Selecciona tags"
-            onChange={selectedOption => handleFilterChange('tags', selectedOption)}
-          />
-
-          
-          <button type="submit">Aplicar Filtros</button>
-        </form>
+        <h2>Filtros</h2>
+          <form onSubmit={(e) => { e.preventDefault(); applyFilters(); }}>
+            {/* Filtro por nombre */}
+            <input type="text" 
+                  name="name" 
+                  placeholder="Buscar por nombre" 
+                  onChange={handleInputChange} />
+            
+            {/* Filtro compra/venta */}
+            <Select
+              name="sale"
+              options={saleOptions}
+              className="basic-single-select"
+              classNamePrefix="select"
+              placeholder="Estado de venta"
+              onChange={selectedOption => handleFilterChange('sale', selectedOption)}
+            />
+            
+            {/* Filtro por precio */}
+            <input type="number" name="minPrice" placeholder="Precio mínimo" onChange={handleInputChange} />
+            <input type="number" name="maxPrice" placeholder="Precio máximo" onChange={handleInputChange} />
+            
+            {/* Filtro por tags (selección múltiple) */}
+            <Select
+              isMulti
+              name="tags"
+              options={tagOptions} // Now using the defined tagOptions
+              className="basic-multi-select"
+              classNamePrefix="select"
+              placeholder="Selecciona tags"
+              onChange={selectedOption => handleFilterChange('tags', selectedOption)}
+            />
+            <button type="submit">Aplicar Filtros</button>
+          </form>
       </div>
     </div>
   );

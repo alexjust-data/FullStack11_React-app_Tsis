@@ -13,17 +13,24 @@ export const getLatestAdverts = () => {
     });
 };
 
-
-
-
 export const createAdvert = advert => {
   const url = advertsUrl;
-  return client.post(url, advert);
+  const config = {
+    headers: {
+      'Content-Type': undefined, // Esto permitirá que el navegador establezca el Content-Type correcto para FormData
+    },
+  };
+  return client.post(url, advert, config);
 };
+
 
 export const getAdvert = advertId => {
   const url = `${advertsUrl}/${advertId}`;
   return client.get(url);
 };
 
+export const deleteAdvert = (advertId) => {
+  const url = `${advertsUrl}/${advertId}`;
+  return client.delete(url);
+};
 

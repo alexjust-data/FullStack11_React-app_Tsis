@@ -1,5 +1,6 @@
 import client, {
     setAuthorizationHeader,
+    removeAuthorizationHeader
   } from '../../api/client';
 import storage from '../../utils/storage';
 
@@ -29,6 +30,13 @@ export const login = (credentials) => {
         });
 };
 
+
+export const logout = () => {
+    return Promise.resolve().then(() => {
+      removeAuthorizationHeader();
+      storage.remove('auth');
+    });
+  };
 
 
 
