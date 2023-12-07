@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { getAdvert, deleteAdvert } from './service'; 
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import { getAdvert, deleteAdvert } from './service';
+import './AdvertPage.css';
+
 
 // Componente de confirmación (puede ser más complejo, como un modal)
 const ConfirmDialog = ({ onConfirm, onCancel }) => (
@@ -37,6 +39,10 @@ const AdvertPage = () => {
     loadAdvert();
   }, [id, navigate]);
 
+
+
+  
+
   const handleDelete = async () => {
     try {
       await deleteAdvert(id); // Llama función de servicio y borra anuncio
@@ -55,19 +61,35 @@ const AdvertPage = () => {
   const placeholderImage = '/path-to-your-placeholder.png'; // Asegúrate de tener una imagen de placeholder
 
   return (
-    <div>
-      <h1>{advert.name}</h1>
-      <img src={advert.photo || placeholderImage} alt={advert.name} />
-      <p>Precio: {advert.price}</p>
-      <p>Tipo: {advert.sale ? 'Venta' : 'Compra'}</p>
-      <p>Tags: {advert.tags.join(', ')}</p>
-      <button onClick={() => setConfirmDelete(true)}>Borrar Anuncio</button>
+    <div className="advert-page">
+      <div className="advert-actions">
+        {/* Botones de acción como Editar o Borrar */}
+        <button onClick={() => setConfirmDelete(true)}>Borrar Anuncio</button>
+        {/* Opcional: Botón para editar si lo necesitas */}
+        <Link to={`/adverts/edit/${advert.id}`}>Editar Anuncio</Link>
+      </div>
       {confirmDelete && (
         <ConfirmDialog
           onConfirm={handleDelete}
           onCancel={() => setConfirmDelete(false)}
         />
       )}
+      <div className="advert-header">
+        <div className="advert-user-info">
+          <div className="advert-header">
+            <h2 className="advert-title">{advert.name}</h2>
+            {/* <p className="advert-price">{advert.price} €</p> */}
+          </div>
+        </div>
+      </div>
+      <div className="advert-main">
+      <div className="advert-info">
+          <p className="advert-price">{advert.price} €</p>
+          <p className="advert-description">{advert.description}</p>
+          {/* Resto de la información del anuncio */}
+        </div>
+        <img src={advert.photo || placeholderImage} alt={advert.name} />
+      </div>
     </div>
   );
 };
