@@ -1,0 +1,49 @@
+/* AdvertsPage.css */
+.adverts-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+}
+
+/* AdvertCard.css */
+.advert-card {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.advert-card-link {
+  display: block; /* O flex, dependiendo de tus necesidades */
+  text-decoration: none; /* Elimina el subrayado del enlace */
+  color: inherit; /* Hereda el color del texto */
+  cursor: pointer; /* Cambia el cursor a una mano cuando se pasa el ratón */
+}
+
+.advert-photo {
+  width: 100%;
+  height: 200px; /* Ajusta esta altura según tus necesidades */
+  object-fit: cover;
+}
+
+.advert-details {
+  padding: 0.5rem;
+  background: #fff; /* O cualquier otro color de fondo que prefieras */
+}
+
+.advert-name {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+}
+
+.advert-price {
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
+
+.advert-tags {
+  font-style: italic;
+  color: #666;
+}

@@ -23,7 +23,7 @@ function Header({ className }) {
           replace
           className={navItemClassName}
           >
-          New Tweet
+          New Advert
         </NavLink>
         <AuthButton className="header-button" />
       </nav>

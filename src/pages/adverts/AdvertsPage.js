@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { Link } from 'react-router-dom';
 import { getLatestAdverts } from './service';
+import AdvertCard from './AdvertCard';
 
 function AdvertsPage() {
   const [adverts, setAdverts] = useState([]); // Estado para los anuncios
@@ -25,6 +26,17 @@ function AdvertsPage() {
       setAvailableTags(Array.from(tagsSet));
     });
   }, []);
+
+  useEffect(() => {
+    getLatestAdverts().then(data => {
+      setAdverts(data);
+    });
+  }, []);
+
+  useEffect(() => {
+    getLatestAdverts().then(setAdverts);
+  }, []);
+
 
   // Define tagOptions based on availableTags for use with react-select
   const tagOptions = availableTags.map(tag => ({ value: tag, label: tag }));
@@ -62,24 +74,7 @@ function AdvertsPage() {
   
 
   return (
-    <div>
-      {adverts.length === 0 ? (
-        <div>
-          No hay anuncios disponibles. <Link to="new">Crear anuncio</Link>
-        </div>
-      ) : (
-        <div>
-          {adverts.map((advert) => (
-            <div key={advert.id}>
-              <div>Nombre: {advert.name}</div>
-              <div>Precio: {advert.price}</div>
-              <div>Tipo: {advert.sale ? 'Venta' : 'Compra'}</div>
-              <div>Tags: {advert.tags.join(', ')}</div>
-              <Link to={`/adverts/${advert.id}`}>Ver detalles</Link>
-            </div>
-          ))}
-        </div>
-      )}
+    <div className="adverts-page-container">
       <div>
         <h2>Filtros</h2>
           <form onSubmit={(e) => { e.preventDefault(); applyFilters(); }}>
@@ -87,8 +82,11 @@ function AdvertsPage() {
             <input type="text" 
                   name="name" 
                   placeholder="Buscar por nombre" 
-                  onChange={handleInputChange} />
-            
+                  onChange={handleInputChange} 
+            />
+            {/* Filtro por precio */}
+            <input type="number" name="minPrice" placeholder="Precio mínimo" onChange={handleInputChange} />
+            <input type="number" name="maxPrice" placeholder="Precio máximo" onChange={handleInputChange} />
             {/* Filtro compra/venta */}
             <Select
               name="sale"
@@ -98,11 +96,6 @@ function AdvertsPage() {
               placeholder="Estado de venta"
               onChange={selectedOption => handleFilterChange('sale', selectedOption)}
             />
-            
-            {/* Filtro por precio */}
-            <input type="number" name="minPrice" placeholder="Precio mínimo" onChange={handleInputChange} />
-            <input type="number" name="maxPrice" placeholder="Precio máximo" onChange={handleInputChange} />
-            
             {/* Filtro por tags (selección múltiple) */}
             <Select
               isMulti
@@ -113,9 +106,20 @@ function AdvertsPage() {
               placeholder="Selecciona tags"
               onChange={selectedOption => handleFilterChange('tags', selectedOption)}
             />
+            <br/>
             <button type="submit">Aplicar Filtros</button>
           </form>
       </div>
+      <br/>
+      {adverts.length === 0 ? (
+        <div>No hay anuncios disponibles. <Link to="new">Crear anuncio</Link></div>
+      ) : (
+        <div className="adverts-list">
+          {adverts.map((advert) => (
+            <AdvertCard key={advert.id} advert={advert} />
+          ))}
+        </div>
+      )}
     </div>
   );
 }
