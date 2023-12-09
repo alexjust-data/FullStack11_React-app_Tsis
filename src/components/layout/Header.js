@@ -1,6 +1,6 @@
 import { Link, NavLink } from 'react-router-dom';
 import clsx from 'clsx';
-import { ReactComponent as Icon } from '../../assets/twitter.svg';
+import { ReactComponent as Icon } from '../../assets/logo.svg';
 import AuthButton from '../../pages/auth/components/AuthButton';
 
 import './Header.css';
@@ -11,9 +11,9 @@ clsx('header-nav-item', { active: isActive });
 function Header({ className }) {
   return (
     <header className={clsx('header', className)}>
-      <Link to="/">
+      <Link to="/adverts">
         <div className="header-logo">
-          <Icon width={32} height={32} fill="red" />
+          <Icon width={94} height={94} fill="red" />
           {/* <img src={logo} alt="twitter-react" /> */}
         </div>
       </Link>

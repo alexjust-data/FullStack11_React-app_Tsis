@@ -1,34 +1,52 @@
-.loginPage {
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 40px;
-    max-width: 600px;
-    padding: 0 15px;
-    width: 100%;
-  }
-  
-  .loginPage-title {
-    align-items: center;
-    display: flex;
-    height: 64px;
-    justify-content: center;
-    margin-bottom: 10px;
-  }
-  
-  .loginPage-field {
-    padding: 10px 0;
-  }
-  
-  .loginPage-submit {
-    margin-top: 10px;
-    width: 100%;
-  }
-  
-  .loginPage-error {
-    background-color: rgb(224, 36, 94, 0.1);
-    border: 1px solid rgba(224, 36, 94, 0.2);
-    border-radius: 5px;
-    color: rgb(224, 36, 94);
-    margin-top: 20px;
-    padding: 10px 15px;
-  }
+/* LoginPage.css */
+.login-modal {
+  background-color: #fff; /* Fondo blanco */
+  border-radius: 8px; /* Bordes redondeados */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  padding: 2rem; /* Espaciado interior */
+  width: 100%; /* Ancho completo */
+  max-width: 400px; /* Ancho máximo */
+  margin: 2rem auto; /* Centrado con márgenes automático */
+  text-align: center; /* Texto centrado */
+}
+
+.login-page-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centrado vertical */
+  align-items: center; /* Centrado horizontal */
+  min-height: 100vh; /* Altura completa de la ventana */
+  background-color: #f4f7f6; /* Fondo de la página */
+}
+
+.login-modal h1 {
+  color: #333; /* Color del título */
+  margin-bottom: 1rem; /* Espaciado debajo del título */
+}
+
+.login-modal form {
+  display: flex;
+  flex-direction: column; /* Los elementos del formulario en columna */
+}
+
+.login-modal input {
+  margin-bottom: 1rem; /* Espaciado entre campos */
+  padding: 0.5rem; /* Espaciado interno del campo */
+  border: 1px solid #ccc; /* Borde del campo */
+  border-radius: 4px; /* Bordes redondeados del campo */
+}
+
+.login-modal button {
+  background-color: #008cba; /* Fondo del botón */
+  color: #fff; /* Color del texto del botón */
+  padding: 0.5rem; /* Espaciado interno del botón */
+  border: none; /* Sin bordes */
+  border-radius: 4px; /* Bordes redondeados del botón */
+  cursor: pointer; /* Cursor en forma de mano */
+  margin-bottom: 1rem; /* Espaciado debajo del botón */
+}
+
+.login-modal .loginPage-error {
+  color: #e74c3c; /* Color del mensaje de error */
+  margin-top: 1rem; /* Espaciado encima del mensaje de error */
+}

@@ -23,7 +23,6 @@ export const createAdvert = advert => {
   return client.post(url, advert, config);
 };
 
-
 export const getAdvert = advertId => {
   const url = `${advertsUrl}/${advertId}`;
   return client.get(url);
@@ -33,4 +32,6 @@ export const deleteAdvert = (advertId) => {
   const url = `${advertsUrl}/${advertId}`;
   return client.delete(url);
 };
+
+
 

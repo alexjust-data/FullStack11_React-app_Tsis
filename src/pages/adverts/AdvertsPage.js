@@ -3,6 +3,8 @@ import Select from 'react-select';
 import { Link } from 'react-router-dom';
 import { getLatestAdverts } from './service';
 import AdvertCard from './AdvertCard';
+import './NewAdvertsPage.css'; 
+
 
 function AdvertsPage() {
   const [adverts, setAdverts] = useState([]); // Estado para los anuncios
@@ -66,11 +68,16 @@ function AdvertsPage() {
     setFilters(filters => ({ ...filters, [name]: type === 'checkbox' ? checked : value }));
   };
 
+  // Dentro de tu componente AdvertsPage
   const applyFilters = () => {
     getLatestAdverts(filters).then(filteredAdverts => {
       setAdverts(filteredAdverts);
+    }).catch(error => {
+      // Manejar el error aquí, por ejemplo, actualizando el estado con un mensaje de error
+      console.error("Error applying filters: ", error);
     });
   };
+
   
 
   return (

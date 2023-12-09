@@ -36,7 +36,7 @@ export const logout = () => {
       removeAuthorizationHeader();
       storage.remove('auth');
     });
-  };
+};
 
 
 

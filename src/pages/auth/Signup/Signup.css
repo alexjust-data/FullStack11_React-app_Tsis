@@ -1,18 +1,64 @@
-.form-container {
-    display: flex;
-    flex-direction: column;
-}
-
-.input-field {
-    margin-bottom: 10px;
-    width: 100%; /* Asumirá el ancho máximo del contenedor padre hasta 400px */
-    max-width: 400px; /* Establece un ancho máximo para el input */
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.button-container {
+/* Signup.css */
+.signup-container {
+    background-color: #fff; /* Fondo blanco como el de la imagen */
+    border-radius: 8px; /* Bordes redondeados */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    padding: 40px; /* Espaciado interior */
+    max-width: 400px; /* Ancho máximo como en la imagen */
+    margin: 80px auto; /* Centrado con márgenes automáticos arriba y abajo */
+  }
+  
+  .signup-title {
+    font-size: 1.5em; /* Tamaño de fuente para el título */
+    margin-bottom: 20px; /* Espacio debajo del título */
+    text-align: center; /* Alineación del texto del título */
+  }
+  
+  .input-field {
+    width: 100%; /* Asumirá el ancho máximo del contenedor */
+    padding: 10px; /* Espaciado interno como en la imagen */
+    margin-bottom: 10px; /* Espacio debajo de cada campo */
+    border: 1px solid #ccc; /* Borde sutil como en la imagen */
+    border-radius: 4px; /* Bordes redondeados */
+  }
+  
+  .button-container {
     margin-top: 20px; /* Espacio encima del botón */
-    margin-left: auto;
-    margin-right: auto;
-}
+    text-align: center; /* Centrar el botón en el contenedor */
+  }
+  
+  .signup-button {
+    background-color: #008cba; /* Color de fondo del botón */
+    color: white; /* Color del texto del botón */
+    border: none; /* No hay bordes */
+    padding: 10px 20px; /* Espaciado interno del botón */
+    border-radius: 4px; /* Bordes redondeados del botón */
+    cursor: pointer; /* Cursor en forma de mano */
+    display: inline-block; /* Hace que el botón sea un bloque en línea */
+    font-size: 1em; /* Tamaño de fuente del botón */
+  }
+  
+  .signup-error {
+    color: #ff0000; /* Color del texto del mensaje de error */
+    background-color: #fff0f0; /* Fondo del mensaje de error */
+    border: 1px solid #ff0000; /* Borde del mensaje de error */
+    padding: 10px; /* Relleno alrededor del texto */
+    margin: 10px 0; /* Margen arriba y abajo del mensaje de error */
+    border-radius: 4px; /* Bordes redondeados del mensaje de error */
+    text-align: center; /* Texto centrado dentro del mensaje de error */
+    display: block; /* Asegúrate de que el error se muestra como un bloque */
+    width: 100%; /* El ancho depende del contenido */
+  }
+  
+  /* Estilo para ocultar el mensaje de error después de 2 segundos */
+  @keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+  }
+  
+  /* Aplica la animación al mensaje de error */
+  .signup-error {
+    animation: fadeOut 2s ease-in-out forwards;
+    animation-delay: 2s; /* Comienza a desvanecer después de 2 segundos */
+  }
+  

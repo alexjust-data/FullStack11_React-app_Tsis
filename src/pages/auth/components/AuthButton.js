@@ -1,18 +1,16 @@
-import React from 'react';
 import { Link } from 'react-router-dom';
 import Button from '../../../components/shared/Button';
-import { useAuth } from '../AuthContext'; // Corrected import
+import { useAuthHandlers, useIsLogged } from '../AuthContext';
 import { logout } from '../service';
-import { useNavigate } from 'react-router-dom';
+
 
 function AuthButton({ className }) {
-  const { isLogged, onLogout } = useAuth(); // Corrected usage of useAuth hook
-  const navigate = useNavigate();
+  const isLogged = useIsLogged(); 
+  const { onLogout } = useAuthHandlers();
 
   const handleLogoutClick = async () => {
     await logout();
     onLogout();
-    navigate('/');
   };
 
   return isLogged ? (
@@ -20,7 +18,7 @@ function AuthButton({ className }) {
       Logout
     </Button>
   ) : (
-    <Button as={Link} to="/login" className={className}>
+    <Button as={Link} to="/login" $variant="primary" className={className}>
       Login
     </Button>
   );

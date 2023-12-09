@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from '../../../components/shared/Button';
 import { signup } from './service';
 import { useNavigate } from 'react-router-dom';
@@ -10,8 +10,15 @@ function Signup() {
     const [password, setPassword] = useState('');
     const [username, setUserName] = useState('');
     const [name, setName] = useState('');
-
+    const [error, setError] = useState(''); // Estado para manejar el mensaje de error
     let navigate = useNavigate(); // Hook para la redirección
+
+    useEffect(() => {
+        if (error) {
+            const timer = setTimeout(() => setError(''), 2000); // Limpiar el error después de 2 segundos
+            return () => clearTimeout(timer);
+        }
+    }, [error]);
 
     const handleSignup = async (event) => {
         event.preventDefault();
@@ -23,24 +30,16 @@ function Signup() {
                 name: name,
             });
             console.log('Registro exitoso:', response.data);
-            // Redirigir al usuario a la página de inicio de sesión
             navigate('/login');
         } catch (error) {
             console.error('Error en el registro:', error);
-            if (error.response) {
-                // La solicitud fue hecha y el servidor respondió con un estado fuera del rango 2xx
-                console.error(error.response.data);
-                console.error(error.response.status);
-                console.error(error.response.headers);
-            } else if (error.request) {
-                // La solicitud fue hecha pero no se recibió respuesta
-                console.error(error.request);
-            } else {
-                // Algo sucedió al configurar la solicitud que disparó un error
-                console.error('Error', error.message);
+            let errorMessage = 'Se ha producido un error inesperado. Inténtalo de nuevo.';
+            if (error.response && error.response.status === 500) {
+                // Especificar mensaje de error basado en la respuesta del servidor
+                errorMessage = 'El usuario ya existe.';
             }
+            setError(errorMessage);
         }
-        
     };
 
     const handleEmailChange = (event) => {
@@ -59,50 +58,63 @@ function Signup() {
         setName(event.target.value);
     };
 
+    const handleGoBack = () => {
+        navigate('/');
+    };
+
     return (
-        <div >
-            <h3 className="input-field">Sign up</h3>
-            <form className="form-container" 
-                    onSubmit={handleSignup}>
-                <input 
-                    className="input-field"
-                    type="email" 
-                    name="email" 
-                    placeholder="Email" 
-                    value={email}
-                    onChange={handleEmailChange}
-                />
-                <input 
-                    className="input-field"
-                    type="current-password" 
-                    name="password" 
-                    placeholder="Password"
-                    value={password}
-                    onChange={handlePasswordChange}
-                />
-                <input 
-                    className="input-field"
-                    type="text" 
-                    name="username" 
-                    placeholder="Username"
-                    value={username}
-                    onChange={handleUserNameChange}
-                />
-                <input 
-                    className="input-field"
-                    type="text" 
-                    name="name" 
-                    placeholder="Full Name"
-                    value={name}
-                    onChange={handleNameChange}
-                />
-                <div className="button-container">
-                    <Button type="submit" variant="primary">
-                        Sign up
-                    </Button>
-                </div>
-            </form>
-        </div>
+<div className="signup-page">
+      <div className="signup-container">
+        <button className="go-back-button" onClick={handleGoBack}>
+            ← Back
+        </button>
+        <h3 className="signup-title">Sign up</h3>
+        <form onSubmit={handleSignup}>
+          <input
+            className="input-field"
+            type="email"
+            name="email"
+            placeholder="Email"
+            value={email}
+            onChange={handleEmailChange}
+            required
+          />
+          <input
+            className="input-field"
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={password}
+            onChange={handlePasswordChange}
+            required
+          />
+          <input
+            className="input-field"
+            type="text"
+            name="username"
+            placeholder="Username"
+            value={username}
+            onChange={handleUserNameChange}
+            required
+          />
+          <input
+            className="input-field"
+            type="text"
+            name="name"
+            placeholder="Full Name"
+            value={name}
+            onChange={handleNameChange}
+            required
+          />
+          <div className="button-container">
+            <Button type="submit" className="signup-button">
+              Sign up
+            </Button>
+            {error && <div className="signup-error error-visible">{error}</div>}
+          </div>
+        </form>
+      </div>
+    </div>
     );
 }
 

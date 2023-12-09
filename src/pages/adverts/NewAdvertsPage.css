@@ -1,0 +1,109 @@
+.new-advert-page {
+  background-color: #f5f5f5; /* Color de fondo suave */
+  padding: 20px; /* Puedes reducir este valor si quieres menos espacio alrededor del formulario */
+  border-radius: 10px; /* Bordes redondeados */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  width: auto; /* Ajusta el ancho según el contenido */
+  max-width: 400px; /* Ancho máximo más pequeño para el contenedor del formulario */
+  margin: 40px auto; /* Centrado con margen superior e inferior */
+  display: flex; /* Utiliza flex para centrar los elementos hijos */
+  flex-direction: column; /* Orientación de los hijos en columna */
+  align-items: center; /* Centra los hijos horizontalmente */
+  justify-content: center; /* Centra los hijos verticalmente (si el contenedor es más alto que su contenido) */
+}
+
+.new-advert-page h1 {
+  text-align: center; /* Título centrado */
+  color: #333; /* Color de texto oscuro */
+  margin-bottom: 30px; /* Espacio debajo del título */
+}
+
+.new-advert-page form {
+  display: grid; /* Layout de cuadrícula para form */
+  gap: 20px; /* Espacio entre los campos del formulario */
+}
+
+.new-advert-page label {
+  display: block; /* Asegura que la etiqueta esté por encima del campo de entrada */
+  margin-bottom: 5px; /* Espacio entre la etiqueta y el campo de entrada */
+  color: #666; /* Color de texto para las etiquetas */
+}
+
+/* Puedes necesitar ajustar los estilos de tus inputs y select para que no se expandan al 100% si el contenedor es más pequeño */
+.new-advert-page input,
+.new-advert-page .basic-multi-select {
+  padding: 10px; /* Relleno dentro de los campos de entrada */
+  border: 1px solid #ddd; /* Borde sutil */
+  border-radius: 5px; /* Bordes redondeados para los campos de entrada */
+  width: calc(100% - 20px); /* Ajusta el ancho para considerar el padding */
+}
+
+.new-advert-page .error-message {
+    color: rgba(181, 3, 3, 0.905);
+    background-color: rgba(255, 0, 0, 0.141);
+    text-align: center;
+    padding: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    display: inline-block; /* Ajusta el tamaño al del contenido */
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.adverts-page-container {
+  /* Reutiliza los estilos del contenedor de NewAdvertPage para consistencia */
+  background-color: #f5f5f5;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 40px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.adverts-page-container h2 {
+  /* Estilo para el encabezado de filtros, similar al de NewAdvertPage */
+  text-align: center;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.adverts-page-container form {
+  /* Estilos para el formulario de filtros */
+  width: 100%;
+  margin-bottom: 20px; /* Añade espacio antes de la lista de anuncios */
+}
+
+/* Estilos para los campos de entrada y selects */
+.adverts-page-container input,
+.adverts-page-container .basic-single-select,
+.adverts-page-container .basic-multi-select {
+  /* Reutiliza estilos de NewAdvertPage */
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 10px; /* Añade espacio entre los campos */
+}
+
+.adverts-page-container button {
+  /* Estilos para el botón de aplicar filtros */
+  padding: 10px 20px;
+  border-radius: 5px;
+  border: none;
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+/* Añade estilos para la lista de anuncios si es necesario */
+.adverts-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+

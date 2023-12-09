@@ -1,0 +1,40 @@
+/* WelcomePage.css */
+.welcome-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(208, 208, 208, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-items: flex-start; /* Cambiado de center a flex-start */
+    padding-top: 10vh; /* Ajusta este valor como prefieras */
+}
+
+.welcome-modal {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    text-align: center;
+    width: 300px; /* O el ancho que prefieras */
+}
+
+.welcome-modal h1 {
+    margin-bottom: 10px;
+}
+
+.welcome-modal p {
+    margin-bottom: 20px;
+}
+
+.login-signup-switch {
+    margin-top: 15px;
+    cursor: pointer;
+}
+
+.login-signup-switch span {
+    color: blue;
+    text-decoration: underline;
+}

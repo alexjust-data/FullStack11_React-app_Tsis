@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CreatableSelect from 'react-select/creatable';
 import Photo from '../../components/shared/Photo';
 import Button from '../../components/shared/Button';
 import { createAdvert } from './service'; // Asegúrate de que esta función esté definida en tus servicios
-
+import './NewAdvertsPage.css';
 
 function NewAdvertPage() {
   const [advertData, setAdvertData] = useState({
@@ -14,7 +14,18 @@ function NewAdvertPage() {
     tags: [],
     photo: null
   });
+  const [formError, setFormError] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    let timer;
+    if (formError) {
+      timer = setTimeout(() => {
+        setFormError('');
+      }, 2000); // Mensaje desaparecerá después de 3 segundos
+    }
+    return () => clearTimeout(timer); // Limpia el temporizador si el componente se desmonta
+  }, [formError]); // Este efecto se ejecuta cada vez que 'formError' cambia
 
   const handleInputChange = (event) => {
     const { name, value, type, checked } = event.target;
@@ -42,6 +53,13 @@ function NewAdvertPage() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+
+    // Validación para asegurarse de que se han creado tags
+    if (advertData.tags.length === 0) {
+      setFormError('Please add at least one tag.');
+      return;
+    }
+
     const formData = new FormData();
     console.log(formData)
     formData.append('name', advertData.name);
@@ -59,7 +77,6 @@ function NewAdvertPage() {
     }
   
     try {
-      console.log(createAdvert(formData))
       const response = await createAdvert(formData); // esta función debe manejar correctamente FormData
       const newAdvert = response.data;
       navigate(`/adverts/${newAdvert.id}`);
@@ -135,6 +152,7 @@ function NewAdvertPage() {
                     />
                 )}
             </div>
+            {formError && <p className="error-message">{formError}</p>}
             <Button type="submit">Create Advert</Button>
         </form>
     </div>

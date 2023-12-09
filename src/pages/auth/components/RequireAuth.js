@@ -1,18 +1,17 @@
 import { Navigate, useLocation } from 'react-router';
-import { useAuth } from '../AuthContext';
+import { useIsLogged } from '../AuthContext';
 
 function RequireAuth({ children }) {
-  const location = useLocation(); // Obtiene la ubicación actual de la ruta
-  const { isLogged } = useAuth(); // Obtiene el estado de autenticación
+  const location = useLocation();
+  const isLogged = useIsLogged();
 
+  console.log(location)
   console.log(isLogged)
 
   return isLogged ? (
-    // Si está autenticado, permite el acceso a los componentes hijos.
     children
   ) : (
-    // Si no está autenticado, redirige a la página "/signup".
-    <Navigate to="/signup" state={{ from: location }} />
+    <Navigate to="/" state={{ from: location }} />
   );
 }
 

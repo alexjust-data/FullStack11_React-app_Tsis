@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getAdvert, deleteAdvert } from './service';
 import './AdvertPage.css';
+import placeholderImage from '../../assets/placeholderimage.jpg';
 
 
 // Componente de confirmación (puede ser más complejo, como un modal)
@@ -58,7 +59,6 @@ const AdvertPage = () => {
   if (error) return <div>Error al cargar el anuncio: {error.toString()}</div>;
   if (!advert) return null; // o <Redirect to="/not-found" /> si estás usando react-router v5
 
-  const placeholderImage = '/path-to-your-placeholder.png'; // Asegúrate de tener una imagen de placeholder
 
   return (
     <div className="advert-page">

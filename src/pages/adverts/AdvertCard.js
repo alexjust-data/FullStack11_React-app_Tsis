@@ -2,12 +2,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import './AdvertCard.css';
+import placeholderImage from '../../assets/placeholderimage.jpg';
 
 const AdvertCard = ({ advert }) => {
   return (
     <Link to={`/adverts/${advert.id}`} className="advert-card-link">
       <div className="advert-card">
-        <img src={advert.photo || 'placeholder_image_path.jpg'} alt={advert.name} className="advert-photo" />
+        <img src={advert.photo || placeholderImage} alt={advert.name} className="advert-photo" />
         <div className="advert-details">
           <h3 className="advert-name">{advert.name}</h3>
           <p className="advert-price">{advert.price} EUR</p>

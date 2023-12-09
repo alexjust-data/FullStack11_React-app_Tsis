@@ -1,3 +1,4 @@
+// WelcomePage.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../../components/shared/Button';
@@ -15,14 +16,17 @@ function WelcomePage() {
     }
 
     return (
-        <div className="welcome-container">
-            <h1>Tsis</h1>
-            <Button $primary onClick={handleLoginClick}>
-                Log in
-            </Button>
-            <Button onClick={handleSignupClick}>
-                Sign up
-            </Button>
+        <div className="welcome-backdrop">
+            <div className="welcome-modal">
+                <h1>Papapop</h1>
+                <p>Consigue los mejores precios y gana dinero con lo que no usas.</p>
+                <Button onClick={handleSignupClick}>
+                    Crea tu usuario
+                </Button>
+                <div className="login-signup-switch">
+                    ¿Ya tienes una cuenta? <span onClick={handleLoginClick}>Iniciar sesión</span>
+                </div>
+            </div>
         </div>
     );
 }
