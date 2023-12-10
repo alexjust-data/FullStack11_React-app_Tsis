@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { getAdvert, deleteAdvert } from './service';
+import { useAuth } from '../auth/AuthContext';
 import './AdvertPage.css';
 import placeholderImage from '../../assets/placeholderimage.jpg';
+
 
 
 // Componente de confirmación (puede ser más complejo, como un modal)
@@ -21,27 +23,24 @@ const AdvertPage = () => {
   const [confirmDelete, setConfirmDelete] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
+  const { currentUser } = useAuth();
 
   useEffect(() => {
-    const loadAdvert = async () => {
-      try {
-        const result = await getAdvert(id);
-        setAdvert(result.data);
-      } catch (error) {
+    getAdvert(id)
+      .then(result => {
+        setAdvert({ ...result.data, userId: result.data.userId });
+      })
+      .catch(error => {
         setError(error);
         if (error.response && error.response.status === 404) {
-          navigate('/not-found');
+          navigate('/not-found'); // o cualquier ruta que no esté definida
         }
-      } finally {
+      })
+      .finally(() => {
         setLoading(false);
-      }
-    };
-
-    loadAdvert();
+      });
   }, [id, navigate]);
-
-
-
+  
   
 
   const handleDelete = async () => {
@@ -58,13 +57,19 @@ const AdvertPage = () => {
   if (loading) return <div>Cargando...</div>;
   if (error) return <div>Error al cargar el anuncio: {error.toString()}</div>;
   if (!advert) return null; // o <Redirect to="/not-found" /> si estás usando react-router v5
-
+  
+  
+  console.log('CurrentUser:', currentUser);
+  console.log('Advert:', advert);
+  
 
   return (
     <div className="advert-page">
       <div className="advert-actions">
         {/* Botones de acción como Editar o Borrar */}
-        <button onClick={() => setConfirmDelete(true)}>Borrar Anuncio</button>
+        {currentUser && advert.userId === currentUser.id && (
+          <button onClick={() => setConfirmDelete(true)}>Borrar Anuncio</button>
+        )}
         {/* Opcional: Botón para editar si lo necesitas */}
         <Link to={`/adverts/edit/${advert.id}`}>Editar Anuncio</Link>
       </div>

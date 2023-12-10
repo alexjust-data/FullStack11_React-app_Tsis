@@ -1,9 +1,10 @@
 import { Navigate, useLocation } from 'react-router';
-import { useIsLogged } from '../AuthContext';
+import { useAuth } from '../AuthContext';
+
 
 function RequireAuth({ children }) {
   const location = useLocation();
-  const isLogged = useIsLogged();
+  const { isLogged } = useAuth();
 
   console.log(location)
   console.log(isLogged)

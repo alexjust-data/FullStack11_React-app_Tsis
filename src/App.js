@@ -7,6 +7,7 @@ import AdvertPage from './pages/adverts/AdvertPage';
 import NewAdvertPage from './pages/adverts/NewAdvertPage';
 import Layout from './components/layout/Layout';
 import RequireAuth from './pages/auth/components/RequireAuth';
+import NotFoundPage from './pages/adverts/NotFoundPage';
 
 function App() {
 
@@ -41,6 +42,8 @@ function App() {
             }
           />
         </Route>
+        {/* Ruta de NotFoundPage */}
+        <Route path="*" element={<NotFoundPage />} /> 
       </Routes>
     </div>
   );

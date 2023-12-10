@@ -77,6 +77,8 @@ function NewAdvertPage() {
     }
   
     try {
+
+      
       const response = await createAdvert(formData); // esta función debe manejar correctamente FormData
       const newAdvert = response.data;
       navigate(`/adverts/${newAdvert.id}`);

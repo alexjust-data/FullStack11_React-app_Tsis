@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom';
 import Button from '../../../components/shared/Button';
-import { useAuthHandlers, useIsLogged } from '../AuthContext';
+import { useAuthHandlers, useAuth } from '../AuthContext';
 import { logout } from '../service';
 
 
 function AuthButton({ className }) {
-  const isLogged = useIsLogged(); 
+  const { isLogged } = useAuth();
   const { onLogout } = useAuthHandlers();
 
   const handleLogoutClick = async () => {
