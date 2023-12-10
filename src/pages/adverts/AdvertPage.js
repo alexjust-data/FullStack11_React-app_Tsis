@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { getAdvert, deleteAdvert } from './service';
 import { useAuth } from '../auth/AuthContext';
 import './AdvertPage.css';
@@ -70,8 +70,6 @@ const AdvertPage = () => {
         {currentUser && advert.userId === currentUser.id && (
           <button onClick={() => setConfirmDelete(true)}>Borrar Anuncio</button>
         )}
-        {/* Opcional: Botón para editar si lo necesitas */}
-        <Link to={`/adverts/edit/${advert.id}`}>Editar Anuncio</Link>
       </div>
       {confirmDelete && (
         <ConfirmDialog
