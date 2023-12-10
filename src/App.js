@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import Signup from './pages/auth/Signup/Signup';
 import LoginPage from './pages/auth/LoginPage/LoginPage';
 import WelcomePage from './pages/auth/WelcomePage/WelcomePage';
@@ -41,6 +41,19 @@ function App() {
             }
           />
         </Route>
+        <Route path="/404" element={
+            <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              height: '100vh',
+              fontSize: '2em',
+              fontWeight: 'bold',
+            }}>
+              404 | Not found
+            </div>} 
+        />
+        <Route path="*" element={<Navigate to="/404" />} />
       </Routes>
     </div>
   );
