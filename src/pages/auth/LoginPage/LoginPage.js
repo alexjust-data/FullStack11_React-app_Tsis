@@ -16,6 +16,11 @@ function LoginPage() {
 
     let navigate = useNavigate(); 
 
+    // Función para volver atrás
+    const goBack = () => {
+        navigate(-1); // Retrocede una página en el historial
+    };
+
     const handleLogin = async (event) => {
         event.preventDefault();
         setError(''); // Limpia el estado de error antes de establecer uno nuevo
@@ -66,6 +71,7 @@ function LoginPage() {
           {/* Todo tu JSX de LoginPage aquí */}
           <div className="login-modal-container">
                 <div className="login-modal">
+                    <button onClick={goBack} className="button">Volver</button>
                     <h1>Log in to Papapop</h1>
                     <form onSubmit={handleLogin}>
                         <input 
