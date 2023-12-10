@@ -1,44 +1,101 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Select from 'react-select';
 import { Link } from 'react-router-dom';
 import { getLatestAdverts } from './service';
 import AdvertCard from './AdvertCard';
-import './NewAdvertsPage.css'; 
-
+import './NewAdvertsPage.css';
 
 function AdvertsPage() {
-  const [adverts, setAdverts] = useState([]); // Estado para los anuncios
-  const [filters, setFilters] = useState({}); // Estado para los filtros
-  const [availableTags, setAvailableTags] = useState(['mobile', 'lifestyle', 'motor', 'work']); 
+  const [allAdverts, setAllAdverts] = useState([]);
+  const [adverts, setAdverts] = useState([]);
+  const [filters, setFilters] = useState({});
+  const [availableTags, setAvailableTags] = useState(['mobile', 'lifestyle', 'motor', 'work']);
+
+  // Referencias para los campos de formulario
+  const nameInputRef = useRef();
+  const minPriceInputRef = useRef();
+  const maxPriceInputRef = useRef();
 
   useEffect(() => {
     getLatestAdverts().then(advertsData => {
+      setAllAdverts(advertsData);
       setAdverts(advertsData);
-      console.log(advertsData)
-  
-      // Crear un nuevo Set para almacenar tags únicos
+
       const tagsSet = new Set();
       advertsData.forEach(advert => {
-        advert.tags.forEach(tag => {
-          tagsSet.add(tag);
-        });
+        advert.tags.forEach(tag => tagsSet.add(tag));
       });
-      
-      // Convertir el Set a un array y actualizar el estado de availableTags
       setAvailableTags(Array.from(tagsSet));
     });
   }, []);
 
-  useEffect(() => {
-    getLatestAdverts().then(data => {
-      setAdverts(data);
-    });
-  }, []);
+  const filterAdverts = () => {
+    let filteredAdverts = allAdverts;
 
-  useEffect(() => {
-    getLatestAdverts().then(setAdverts);
-  }, []);
+    if (filters.name) {
+      filteredAdverts = filteredAdverts.filter(ad => 
+        ad.name.toLowerCase().includes(filters.name.toLowerCase())
+      );
+    }
 
+    if (filters.minPrice) {
+      filteredAdverts = filteredAdverts.filter(ad => 
+        ad.price >= filters.minPrice
+      );
+    }
+
+    if (filters.maxPrice) {
+      filteredAdverts = filteredAdverts.filter(ad => 
+        ad.price <= filters.maxPrice
+      );
+    }
+
+    if (filters.sale) {
+      const isSale = filters.sale === 'venta';
+      filteredAdverts = filteredAdverts.filter(ad => 
+        ad.sale === isSale
+      );
+    }
+
+    if (filters.tags && filters.tags.length > 0) {
+      filteredAdverts = filteredAdverts.filter(ad =>
+        filters.tags.some(tag => ad.tags.includes(tag))
+      );
+    }
+
+    setAdverts(filteredAdverts);
+  };
+
+  const resetFilters = () => {
+    setFilters({});
+    setAdverts(allAdverts);
+
+    // Restablecer los valores de los campos de formulario
+    if (nameInputRef.current) nameInputRef.current.value = '';
+    if (minPriceInputRef.current) minPriceInputRef.current.value = '';
+    if (maxPriceInputRef.current) maxPriceInputRef.current.value = '';
+    // Nota: Para los componentes Select de react-select, necesitarás una lógica adicional
+  };
+
+  const handleFilterChange = (name, selectedOption) => {
+    if (name === 'tags') {
+      const values = selectedOption ? selectedOption.map(option => option.value) : [];
+      setFilters(filters => ({ ...filters, [name]: values }));
+    } else {
+      const value = selectedOption ? selectedOption.value : '';
+      setFilters(filters => ({ ...filters, [name]: value }));
+    }
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFilters(filters => ({ ...filters, [name]: value }));
+  };
+
+  const applyFilters = (e) => {
+    e.preventDefault();
+    filterAdverts();
+  };
 
   // Define tagOptions based on availableTags for use with react-select
   const tagOptions = availableTags.map(tag => ({ value: tag, label: tag }));
@@ -47,75 +104,39 @@ function AdvertsPage() {
     { value: 'venta', label: 'Venta' },
     { value: 'compra', label: 'Compra' }
   ];
-  
-
-  const handleFilterChange = (name, selectedOption) => {
-    // Si es el filtro de tags, necesitamos manejar un array de valores
-    if (name === 'tags') {
-      // selectedOption es null cuando no hay opciones seleccionadas
-      const values = selectedOption ? selectedOption.map(option => option.value) : [];
-      setFilters(filters => ({ ...filters, [name]: values }));
-    } else {
-      // Para los demás filtros que no son multi-select
-      const value = selectedOption.value;
-      setFilters(filters => ({ ...filters, [name]: value }));
-    }
-  };
-
-  const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    // Use the value for input and select, but checked for checkboxes
-    setFilters(filters => ({ ...filters, [name]: type === 'checkbox' ? checked : value }));
-  };
-
-  // Dentro de tu componente AdvertsPage
-  const applyFilters = () => {
-    getLatestAdverts(filters).then(filteredAdverts => {
-      setAdverts(filteredAdverts);
-    }).catch(error => {
-      // Manejar el error aquí, por ejemplo, actualizando el estado con un mensaje de error
-      console.error("Error applying filters: ", error);
-    });
-  };
-
-  
 
   return (
     <div className="adverts-page-container">
       <div>
         <h2>Filtros</h2>
-          <form onSubmit={(e) => { e.preventDefault(); applyFilters(); }}>
-            {/* Filtro por nombre */}
-            <input type="text" 
-                  name="name" 
-                  placeholder="Buscar por nombre" 
-                  onChange={handleInputChange} 
-            />
-            {/* Filtro por precio */}
-            <input type="number" name="minPrice" placeholder="Precio mínimo" onChange={handleInputChange} />
-            <input type="number" name="maxPrice" placeholder="Precio máximo" onChange={handleInputChange} />
-            {/* Filtro compra/venta */}
-            <Select
-              name="sale"
-              options={saleOptions}
-              className="basic-single-select"
-              classNamePrefix="select"
-              placeholder="Estado de venta"
-              onChange={selectedOption => handleFilterChange('sale', selectedOption)}
-            />
-            {/* Filtro por tags (selección múltiple) */}
-            <Select
-              isMulti
-              name="tags"
-              options={tagOptions} // Now using the defined tagOptions
-              className="basic-multi-select"
-              classNamePrefix="select"
-              placeholder="Selecciona tags"
-              onChange={selectedOption => handleFilterChange('tags', selectedOption)}
-            />
-            <br/>
-            <button type="submit">Aplicar Filtros</button>
-          </form>
+        <form onSubmit={applyFilters}>
+          {/* Filtros aquí */}
+          <input ref={nameInputRef} type="text" name="name" placeholder="Buscar por nombre" onChange={handleInputChange} />
+          <input ref={minPriceInputRef} type="number" name="minPrice" placeholder="Precio mínimo" onChange={handleInputChange} />
+          <input ref={maxPriceInputRef} type="number" name="maxPrice" placeholder="Precio máximo" onChange={handleInputChange} />
+          {/* Filtro compra/venta */}
+          <Select
+            name="sale"
+            options={saleOptions}
+            className="basic-single-select"
+            classNamePrefix="select"
+            placeholder="Estado de venta"
+            onChange={selectedOption => handleFilterChange('sale', selectedOption)}
+          />
+          {/* Filtro por tags */}
+          <Select
+            isMulti
+            name="tags"
+            options={tagOptions}
+            className="basic-multi-select"
+            classNamePrefix="select"
+            placeholder="Selecciona tags"
+            onChange={selectedOption => handleFilterChange('tags', selectedOption)}
+          />
+          <br/>
+          <button type="submit" style={{ marginRight: '10px' }}>Aplicar Filtros</button>
+          <button type="button" onClick={resetFilters}>Restablecer Filtros</button>
+        </form>
       </div>
       <br/>
       {adverts.length === 0 ? (
